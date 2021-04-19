@@ -1,1 +1,1 @@
-# neural-linear-reinforcement-learning
+# Neural-linear features for value function approximation in ATARI games
