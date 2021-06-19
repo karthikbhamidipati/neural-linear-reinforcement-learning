@@ -35,7 +35,7 @@ jobs:
           echo "Moving main repo"
           mv ${{ github.workspace }}/main/* ${{ github.workspace }}/
 
-          rm -rf ${{ github.workspace }}/main/
+          rm -rf ${{ github.workspace }}/main/ ${{ github.workspace }}/keras-rl/
 
           echo "Listing files in workspace"
           ls -ltr ${{ github.workspace }}/
