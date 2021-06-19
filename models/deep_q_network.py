@@ -1,15 +1,15 @@
 from os.path import exists
 
 from keras import Sequential
-from keras.initializers import GlorotUniform, GlorotNormal, HeUniform, HeNormal
+from keras.initializers import glorot_uniform, glorot_normal, he_uniform, he_normal
 from keras.layers import Conv2D, Input, Flatten
 from keras.models import Model, load_model
 
 _init_strategy_dict = {
-    "glorot_uniform": GlorotUniform,
-    "glorot_normal": GlorotNormal,
-    "he_uniform": HeUniform,
-    "he_normal": HeNormal
+    "glorot_uniform": glorot_uniform,
+    "glorot_normal": glorot_normal,
+    "he_uniform": he_uniform,
+    "he_normal": he_normal
 }
 
 
