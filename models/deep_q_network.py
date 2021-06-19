@@ -34,7 +34,7 @@ def _pretrained_dqn(weights_dir):
     return Model(inputs=model.input, outputs=model.layers[-3].output)
 
 
-def get_dqn(init_strategy: str = 'glorot_uniform', weights_dir: str = None) -> Model:
+def get_dqn_extractor(init_strategy: str = 'glorot_uniform', weights_dir: str = None) -> Model:
     if init_strategy == 'pretrained':
         return _pretrained_dqn(weights_dir)
     elif init_strategy in _init_strategy_dict:

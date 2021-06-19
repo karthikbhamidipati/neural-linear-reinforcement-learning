@@ -1,9 +1,10 @@
 from argparse import ArgumentParser
 
+from utils.train import train
+
 
 def main():
-    parser = ArgumentParser()
-    print(parser.parse_args())
+    train()
 
 
 if __name__ == '__main__':
