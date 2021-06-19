@@ -21,7 +21,7 @@ jobs:
       - name: Checkout the main branch
         uses: actions/checkout@v2
       - name: List files
-        run: ls -ltr ${{ github.workspace }}
+        run: ls -ltr /home/runner/work/*
 #      - name: Install SSH Key
 #        uses: shimataro/ssh-key-action@v2
 #        with:
