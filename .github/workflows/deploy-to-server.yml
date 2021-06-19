@@ -1,6 +1,6 @@
 name: deploy-to-server
 on:
-  pull_request:
+  push:
     branches:
       - main
 
@@ -35,12 +35,14 @@ jobs:
           echo "Moving main repo"
           mv ${{ github.workspace }}/main/* ${{ github.workspace }}/
 
+          rm -rf ${{ github.workspace }}/main/
+
           echo "Listing files in workspace"
-          ls -ltr ${{ github.workspace }}/*
-#      - name: Install SSH Key
-#        uses: shimataro/ssh-key-action@v2
-#        with:
-#          key: ${{ secrets.SSH_PRIVATE_KEY }}
-#          known_hosts: ${{ secrets.KNOWN_HOSTS }}
-#      - name: Deploy with rsync
-#        run: rsync -avz --exclude='.*' --exclude='*cache*' ${{ github.workspace }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_DIR }}/
+          ls -ltr ${{ github.workspace }}/
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: ${{ secrets.KNOWN_HOSTS }}
+      - name: Deploy with rsync
+        run: rsync -avz --exclude='.*' --exclude='*cache*' ${{ github.workspace }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_DIR }}/
