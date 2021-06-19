@@ -13,19 +13,23 @@ jobs:
         with:
           repository: openai/baselines
           path: baselines
-      - name: List files
-        run: ls -ltr ${{ github.workspace }}
+      - name: Clean up baselines dir
+        run: mv ${{ github.workspace }}/baselines/baselines ${{ github.workspace }}/
       - name: Checkout keras-rl
         uses: actions/checkout@v2
         with:
           repository: keras-rl/keras-rl
           path: keras-rl
-      - name: List files
-        run: ls -ltr ${{ github.workspace }}
+      - name: Clean up keras-rl
+        run: mv ${{ github.workspace }}/keras-rl/rl ${{ github.workspace }}/
       - name: Checkout the main branch
         uses: actions/checkout@v2
+        with:
+          path: main
+      - name: Clean up main branch
+        run: mv ${{ github.workspace }}/main/* ${{ github.workspace }}/
       - name: List files
-        run: ls -ltr ${{ github.workspace }}
+        run: ls -ltr ${{ github.workspace }}/*
 #      - name: Install SSH Key
 #        uses: shimataro/ssh-key-action@v2
 #        with:
