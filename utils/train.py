@@ -21,7 +21,7 @@ def train():
     num_actions = env.action_space.n
     num_features = env.observation_space.shape
 
-    sarsa_agent = get_sarsa_model(num_actions, num_features, get_policy())
+    sarsa_agent = get_sarsa_model(num_features, num_actions, get_policy())
 
     optimizer = Adam(learning_rate=LEARNING_RATE)
     sarsa_agent.compile(optimizer=optimizer, metrics=['mae'])
@@ -32,7 +32,7 @@ def train():
     sarsa_agent.fit(env, nb_steps=300, visualize=False, nb_max_episode_steps=MAX_STEPS_PER_EPISODE, verbose=0)
 
     # training the model
-    train_history = sarsa_agent.fit(env, nb_steps=TRAIN_STEPS, visualize=False, nb_max_episode_steps=max_steps_per_episode, verbose=1)
+    train_history = sarsa_agent.fit(env, nb_steps=TRAIN_STEPS, visualize=False, nb_max_episode_steps=MAX_STEPS_PER_EPISODE, verbose=1)
     print(np.mean(train_history.history['episode_reward'][-10000:]))
 
     test(env, sarsa_agent)
