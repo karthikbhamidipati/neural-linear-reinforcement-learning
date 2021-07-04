@@ -5,6 +5,8 @@ from models.resnet_model import get_resnet_extractor
 def get_extractor_model(extractor_model, weights_dir=None):
     model_name, init_strategy = extractor_model.lower().split('_', 1)
     if model_name == 'dqn':
-        get_dqn_extractor(init_strategy, weights_dir)
+        return get_dqn_extractor(init_strategy, weights_dir)
     elif model_name.startswith('resnet'):
-        get_resnet_extractor(model_name, init_strategy)
+        return get_resnet_extractor(model_name, init_strategy)
+    else:
+        raise NotImplementedError("Model not defined")

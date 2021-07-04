@@ -1,3 +1,5 @@
+import shutil
+
 from keras.optimizers import *
 from matplotlib import pyplot as plt
 
@@ -10,18 +12,25 @@ from utils.epsilon_greedy_policy import get_policy
 
 
 def train(save_dir, extractor_model, weights_dir=None):
+    model = get_extractor_model(extractor_model, weights_dir)
+
     # Setting Breakout env
     env = make_atari("BreakoutNoFrameskip-v4")
 
     # Warp the frames, grey scale, stake four frame and scale to smaller ratio
     env = wrap_deepmind(env, frame_stack=True, scale=True)
-    env = NeuralLinearWrapper(env, get_extractor_model(extractor_model, weights_dir))
+    env = NeuralLinearWrapper(env, model)
     env.seed(SEED)
 
     num_actions = env.action_space.n
     num_features = env.observation_space.shape
 
-    save_dir += extractor_model
+    save_dir += extractor_model + '/'
+
+    if os.path.exists(save_dir):
+        shutil.rmtree(save_dir, ignore_errors=True)
+
+    os.mkdir(save_dir)
 
     sarsa_agent = get_sarsa_model(num_features, num_actions, get_policy())
 
@@ -50,7 +59,7 @@ def save_trained_model(env, optimizer, sarsa_agent, save_dir, train_history):
     sarsa_agent.model.save(save_dir + 'model/')
     np.save(save_dir + 'optimizer.npy', optimizer.get_weights())
     np.save(save_dir + 'optimizer_config.npy', optimizer.get_config())
-    env.deep_q_network.save(save_dir + 'feature_extractor')
+    env.feature_extractor.save(save_dir + 'feature_extractor')
 
     plot_history(save_dir, train_history)
 

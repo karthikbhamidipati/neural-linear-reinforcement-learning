@@ -14,8 +14,8 @@ _init_strategy_dict = {
 
 
 def _random_init_dqn(init_strategy):
-    initializer = _init_strategy_dict[init_strategy]
-    return Sequential(
+    initializer = _init_strategy_dict[init_strategy]()
+    dqn_model = Sequential(
         [
             Input(shape=(84, 84, 4), name="input"),
             Conv2D(32, 8, strides=4, activation="relu", name="conv_1", kernel_initializer=initializer),
@@ -24,6 +24,8 @@ def _random_init_dqn(init_strategy):
             Flatten()
         ]
     )
+
+    return dqn_model
 
 
 def _pretrained_dqn(weights_dir):
