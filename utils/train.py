@@ -2,7 +2,7 @@ from keras.optimizers import *
 from matplotlib import pyplot as plt
 
 from baselines.common.atari_wrappers import *
-from models.feature_extractor import get_extractor_model
+from models.model_utils import get_extractor_model
 from models.neural_linear_wrapper import NeuralLinearWrapper
 from models.sarsa_model import get_sarsa_model
 from utils.config import SEED, LEARNING_RATE, MAX_STEPS_PER_EPISODE, TRAIN_STEPS
@@ -20,6 +20,8 @@ def train(save_dir, extractor_model, weights_dir=None):
 
     num_actions = env.action_space.n
     num_features = env.observation_space.shape
+
+    save_dir += extractor_model
 
     sarsa_agent = get_sarsa_model(num_features, num_actions, get_policy())
 
