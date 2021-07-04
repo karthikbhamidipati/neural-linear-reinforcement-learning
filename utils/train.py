@@ -61,7 +61,6 @@ def plot_history(save_dir, history):
     plt.xlabel('epochs')
     plt.ylabel('reward')
     plt.savefig(save_dir + 'pre_train_rewards.png')
-    plt.show()
 
 
 def test(save_dir, env, sarsa_agent, num_steps=200):
