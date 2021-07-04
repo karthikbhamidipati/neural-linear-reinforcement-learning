@@ -25,12 +25,12 @@ def train(save_dir, extractor_model, weights_dir=None):
     num_actions = env.action_space.n
     num_features = env.observation_space.shape
 
-    save_dir += extractor_model + '/'
+    save_dir = os.path.join(save_dir, extractor_model, '')
 
     if os.path.exists(save_dir):
         shutil.rmtree(save_dir, ignore_errors=True)
 
-    os.mkdir(save_dir)
+    os.makedirs(save_dir, exist_ok=True)
 
     sarsa_agent = get_sarsa_model(num_features, num_actions, get_policy())
 
