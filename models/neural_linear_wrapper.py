@@ -7,7 +7,8 @@ class NeuralLinearWrapper(gym.Wrapper):
         gym.Wrapper.__init__(self, env)
 
         self.feature_extractor = feature_extractor
-        self.observation_space = gym.spaces.Box(low=0, high=255, shape=(1, 1, self.feature_extractor.output_shape[1]),
+        self.observation_space = gym.spaces.Box(low=0, high=255,
+                                                shape=(1, 1, self.feature_extractor.output_shape[1]),
                                                 dtype=np.uint8)
 
     def reset(self, **kwargs):
