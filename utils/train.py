@@ -37,7 +37,7 @@ def train(save_dir, extractor_model, weights_dir=None):
     optimizer = Adam(learning_rate=LEARNING_RATE)
     sarsa_agent.compile(optimizer=optimizer, metrics=['mae'])
 
-    test(save_dir, env, sarsa_agent)
+    test(save_dir, env, sarsa_agent, "pre")
 
     # Performing warm up
     sarsa_agent.fit(env, nb_steps=300, visualize=False, nb_max_episode_steps=MAX_STEPS_PER_EPISODE, verbose=0)
@@ -47,12 +47,13 @@ def train(save_dir, extractor_model, weights_dir=None):
                                     nb_max_episode_steps=MAX_STEPS_PER_EPISODE, verbose=1)
     save_trained_model(env, optimizer, sarsa_agent, save_dir, train_history)
 
-    test(save_dir, env, sarsa_agent)
+    test(save_dir, env, sarsa_agent, "post")
 
 
 def save_trained_model(env, optimizer, sarsa_agent, save_dir, train_history):
+    train_rewards = train_history.history['episode_reward']
     print('Average rewards of last 10000 steps during training',
-          np.mean(train_history.history['episode_reward'][-10000:]))
+          np.mean(train_rewards[-10000:]))
 
     sarsa_agent.save_weights(save_dir + 'agent/')
     np.save(save_dir + 'agent_config.npy', sarsa_agent.get_config())
@@ -61,6 +62,7 @@ def save_trained_model(env, optimizer, sarsa_agent, save_dir, train_history):
     np.save(save_dir + 'optimizer_config.npy', optimizer.get_config())
     env.feature_extractor.save(save_dir + 'feature_extractor')
 
+    np.save(save_dir + 'train_rewards.npy', train_rewards)
     plot_history(save_dir, train_history)
 
 
@@ -72,7 +74,11 @@ def plot_history(save_dir, history):
     plt.savefig(save_dir + 'pre_train_rewards.png')
 
 
-def test(save_dir, env, sarsa_agent, num_steps=200):
+def test(save_dir, env, sarsa_agent, save_name, num_steps=200):
     test_history = sarsa_agent.test(env, nb_episodes=num_steps, visualize=False, verbose=0)
-    print('Average rewards during testing: ', np.mean(test_history.history['episode_reward']))
+    test_rewards = test_history.history['episode_reward']
+    print('Average rewards during testing: ', np.mean(test_rewards))
+
+    save_path = '{}{}_train_test_rewards.npy'.format(save_dir, save_name)
+    np.save(save_path, test_rewards)
     plot_history(save_dir, test_history)
