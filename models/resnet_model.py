@@ -35,3 +35,5 @@ def _get_resnet_model(model_name, input_shape, weights):
     elif model_name == 'resnet152v2':
         return ResNet152V2(include_top=False, input_shape=input_shape,
                            weights=weights, pooling='avg')
+    else:
+        raise ValueError("Invalid Model Name")
